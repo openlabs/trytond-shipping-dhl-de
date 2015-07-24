@@ -92,9 +92,10 @@ class ShipmentOut:
         # TODO: add customs value in DeclaredValueOfGoods
         dhl_de_account_no = self.carrier.dhl_de_account_no
         shipment_details.EKP = dhl_de_account_no[:10]
-        shipment_details.Attendance = {
-            'partnerID': dhl_de_account_no[-2:]
-        }
+        partner_id = '01'
+        if self.carrier.dhl_de_environment == 'production':
+            partner_id = dhl_de_account_no[-2:]
+        shipment_details.Attendance = {'partnerID': partner_id}
 
         # Appear on Label
         shipment_details.CustomerReference = self.customer.code or \
